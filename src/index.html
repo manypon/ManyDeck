@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ManyDeck — установка</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0B0F1A;--surface:#131826;--surface-2:#1B2234;--border:#262E44;
+  --text:#E7EAF3;--text-dim:#8D96B3;--accent:#58E6C9;--accent-ink:#06211C;
+  --warn:#F2B84B;--radius:14px;color-scheme:dark;
+}
+@media (prefers-color-scheme: light){
+  :root:not([data-theme="dark"]){
+    --bg:#F3F5FA;--surface:#FFFFFF;--surface-2:#EDF0F7;--border:#DCE1EE;
+    --text:#141A2B;--text-dim:#5C6480;--accent:#0E9C86;--accent-ink:#F0FBF8;color-scheme:light;
+  }
+}
+:root[data-theme="light"]{
+  --bg:#F3F5FA;--surface:#FFFFFF;--surface-2:#EDF0F7;--border:#DCE1EE;
+  --text:#141A2B;--text-dim:#5C6480;--accent:#0E9C86;--accent-ink:#F0FBF8;color-scheme:light;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;background:var(--bg);color:var(--text);
+  font-family:'Inter',system-ui,sans-serif;
+  min-height:100svh;display:flex;align-items:center;justify-content:center;
+  padding:32px 16px;padding-top:calc(32px + env(safe-area-inset-top,0px));
+  padding-bottom:calc(32px + env(safe-area-inset-bottom,0px));
+}
+h1,h2{font-family:'Space Grotesk',sans-serif;margin:0;letter-spacing:-.01em}
+.mono{font-family:'JetBrains Mono',monospace}
+.app{
+  width:100%;max-width:780px;background:var(--surface);border:1px solid var(--border);
+  border-radius:20px;overflow:hidden;box-shadow:0 30px 80px -30px rgba(0,0,0,.5);
+}
+.titlebar{
+  display:flex;align-items:center;gap:10px;padding:14px 18px;
+  border-bottom:1px solid var(--border);background:var(--surface-2);
+}
+.mark{
+  width:22px;height:22px;border-radius:50%;border:1.6px solid var(--accent);
+  position:relative;flex:none;
+}
+.mark::before{
+  content:"";position:absolute;inset:6px;border-radius:50%;background:var(--accent);
+}
+.titlebar span{font-size:13px;color:var(--text-dim);font-weight:500}
+.dots{margin-left:auto;display:flex;gap:6px}
+.dots i{width:7px;height:7px;border-radius:50%;background:var(--border)}
+.body{display:grid;grid-template-columns:200px 1fr}
+@media (max-width:640px){.body{grid-template-columns:1fr}.rail{display:none}}
+.rail{border-right:1px solid var(--border);padding:22px 14px}
+.step{
+  display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:10px;
+  color:var(--text-dim);font-size:13.5px;cursor:pointer;margin-bottom:2px;
+}
+.step .n{
+  width:20px;height:20px;border-radius:50%;border:1.5px solid var(--border);
+  display:flex;align-items:center;justify-content:center;font-size:11px;flex:none;
+}
+.step.active{color:var(--text);background:var(--surface-2)}
+.step.active .n{border-color:var(--accent);color:var(--accent)}
+.step.done .n{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.pane{padding:30px 32px 0;min-height:360px;display:flex;flex-direction:column}
+.screen{display:none;flex:1;flex-direction:column}
+.screen.active{display:flex}
+.hero{
+  width:54px;height:54px;border-radius:16px;background:var(--surface-2);
+  border:1px solid var(--border);display:flex;align-items:center;justify-content:center;
+  margin-bottom:18px;
+}
+.hero .mark{width:26px;height:26px}
+h2{font-size:22px;margin-bottom:8px}
+p{color:var(--text-dim);line-height:1.6;font-size:14.5px;max-width:52ch;margin:0 0 14px}
+.notice{
+  background:var(--surface-2);border:1px solid var(--border);border-radius:12px;
+  padding:14px 16px;font-size:13.5px;color:var(--text-dim);line-height:1.6;margin:6px 0 18px;
+}
+.notice b{color:var(--text);font-weight:600}
+.check{display:flex;align-items:flex-start;gap:10px;font-size:13.5px;color:var(--text);cursor:pointer;user-select:none}
+.check input{margin-top:3px}
+label{display:block;font-size:12.5px;color:var(--text-dim);margin:14px 0 6px}
+input[type=text]{
+  width:100%;background:var(--bg);border:1px solid var(--border);border-radius:10px;
+  padding:11px 12px;color:var(--text);font-size:13.5px;
+}
+input[type=text]:focus{outline:2px solid var(--accent);outline-offset:1px}
+.hint{font-size:12px;color:var(--text-dim);margin-top:5px}
+.hint b{color:var(--accent);font-weight:500}
+.toggles{display:flex;flex-direction:column;gap:2px}
+.toggle-row{
+  display:flex;align-items:center;justify-content:space-between;padding:13px 2px;
+  border-bottom:1px solid var(--border);
+}
+.toggle-row:last-child{border-bottom:none}
+.toggle-row div b{display:block;font-size:13.5px;font-weight:500}
+.toggle-row div span{font-size:12px;color:var(--text-dim)}
+.switch{position:relative;width:38px;height:22px;flex:none}
+.switch input{opacity:0;width:0;height:0}
+.slider{
+  position:absolute;inset:0;background:var(--border);border-radius:22px;transition:.15s;cursor:pointer;
+}
+.slider::before{
+  content:"";position:absolute;width:16px;height:16px;left:3px;top:3px;
+  background:var(--surface);border-radius:50%;transition:.15s;
+}
+.switch input:checked + .slider{background:var(--accent)}
+.switch input:checked + .slider::before{transform:translateX(16px);background:var(--accent-ink)}
+.progress{height:8px;background:var(--surface-2);border-radius:5px;overflow:hidden;margin:10px 0 16px}
+.progress i{
+  display:block;height:100%;width:0%;background:var(--accent);border-radius:5px;
+  transition:width 1.6s cubic-bezier(.3,.7,.3,1);
+}
+.log{
+  background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:12px 14px;
+  font-size:12px;color:var(--text-dim);line-height:1.9;min-height:92px;
+}
+.log span{display:block;opacity:0;transform:translateY(3px);transition:.35s}
+.log span.show{opacity:1;transform:none}
+.done-icon{
+  width:50px;height:50px;border-radius:50%;background:var(--accent);color:var(--accent-ink);
+  display:flex;align-items:center;justify-content:center;margin-bottom:16px;
+}
+.actions{
+  display:flex;align-items:center;gap:10px;padding:20px 32px;border-top:1px solid var(--border);
+  margin-top:auto;
+}
+button{
+  font-family:inherit;font-size:13.5px;font-weight:600;border-radius:10px;padding:10px 18px;
+  border:1px solid var(--border);background:transparent;color:var(--text);cursor:pointer;
+}
+button.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+button:disabled{opacity:.4;cursor:not-allowed}
+.spacer{flex:1}
+.themebtn{
+  position:fixed;top:16px;right:16px;background:var(--surface);border:1px solid var(--border);
+  color:var(--text-dim);border-radius:10px;padding:7px 11px;font-size:12px;cursor:pointer;
+}
+</style>
+</head>
+<body>
+
+<button class="themebtn" id="themeBtn">Тема</button>
+
+<div class="app">
+  <div class="titlebar">
+    <div class="mark"></div>
+    <span>Установка — ManyDeck</span>
+    <div class="dots"><i></i><i></i><i></i></div>
+  </div>
+  <div class="body">
+    <div class="rail" id="rail"></div>
+    <div class="pane">
+
+      <div class="screen active" data-screen="0">
+        <div class="hero"><div class="mark"></div></div>
+        <h2>ManyDeck</h2>
+        <p>Удалённое управление и мониторинг этого компьютера через Telegram: процессы, звук, питание, буфер обмена и горячие клавиши.</p>
+        <p>Мастер настроит бота и подготовит его к первому запуску.</p>
+      </div>
+
+      <div class="screen" data-screen="1">
+        <h2>Перед продолжением</h2>
+        <div class="notice">Бот получает <b>полный доступ</b> к этому компьютеру: может запускать программы, завершать процессы, читать буфер обмена, выключать и перезагружать систему. Делитесь доступом только со своим Telegram-аккаунтом.</div>
+        <label class="check"><input type="checkbox" id="agree"> Я понимаю, что устанавливаю, и беру на себя ответственность за доступ к боту</label>
+      </div>
+
+      <div class="screen" data-screen="2">
+        <h2>Настройка</h2>
+        <p>Данные понадобятся для подключения бота к твоему Telegram.</p>
+        <label>Токен бота</label>
+        <input type="text" class="mono" placeholder="123456789:AAE-xxxxxxxxxxxxxxxxxxxxxxx">
+        <div class="hint">Получить можно у <b>@BotFather</b></div>
+        <label>Твой Telegram ID</label>
+        <input type="text" class="mono" placeholder="123456789">
+        <div class="hint">Узнать можно у <b>@Get_myidrobot</b></div>
+      </div>
+
+      <div class="screen" data-screen="3">
+        <h2>Параметры запуска</h2>
+        <div class="toggles">
+          <div class="toggle-row">
+            <div><b>Запускать с Windows</b><span>Бот поднимется автоматически при входе в систему</span></div>
+            <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
+          </div>
+          <div class="toggle-row">
+            <div><b>Работать в фоне</b><span>Без окна консоли и значка в трее</span></div>
+            <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
+          </div>
+          <div class="toggle-row">
+            <div><b>Ярлык на рабочем столе</b><span>Для ручного запуска и остановки</span></div>
+            <label class="switch"><input type="checkbox"><span class="slider"></span></label>
+          </div>
+        </div>
+      </div>
+
+      <div class="screen" data-screen="4">
+        <h2>Установка</h2>
+        <p>Это займёт несколько секунд.</p>
+        <div class="progress"><i id="progressBar"></i></div>
+        <div class="log" id="log">
+          <span>Копирование файлов…</span>
+          <span>Установка зависимостей…</span>
+          <span>Регистрация автозапуска…</span>
+          <span>Готово</span>
+        </div>
+      </div>
+
+      <div class="screen" data-screen="5">
+        <div class="done-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <h2>Готово</h2>
+        <p>Бот установлен и готов к работе. Открой Telegram и отправь ему <span class="mono">/start</span> — появится меню управления.</p>
+      </div>
+
+    </div>
+  </div>
+  <div class="actions">
+    <button id="backBtn">Назад</button>
+    <div class="spacer"></div>
+    <button class="primary" id="nextBtn">Продолжить</button>
+  </div>
+</div>
+
+<script>
+const screens=["Приветствие","Разрешения","Настройка","Параметры","Установка","Готово"];
+const rail=document.getElementById("rail");
+screens.forEach((label,i)=>{
+  const el=document.createElement("div");
+  el.className="step";
+  el.dataset.i=i;
+  el.innerHTML=`<span class="n">${i+1}</span>${label}`;
+  rail.appendChild(el);
+});
+
+let current=0;
+const steps=[...rail.children];
+const panes=[...document.querySelectorAll(".screen")];
+const backBtn=document.getElementById("backBtn");
+const nextBtn=document.getElementById("nextBtn");
+const agree=document.getElementById("agree");
+
+function render(){
+  panes.forEach(p=>p.classList.toggle("active",+p.dataset.screen===current));
+  steps.forEach((s,i)=>{
+    s.classList.toggle("active",i===current);
+    s.classList.toggle("done",i<current);
+  });
+  backBtn.style.visibility=current===0?"hidden":"visible";
+  nextBtn.textContent=current===screens.length-1?"Завершить":(current===4?"Установка…":"Продолжить");
+  nextBtn.disabled=current===1&&!agree.checked;
+  if(current===4) runInstall();
+}
+
+function runInstall(){
+  const bar=document.getElementById("progressBar");
+  const lines=[...document.getElementById("log").children];
+  bar.style.width="0%";
+  lines.forEach(l=>l.classList.remove("show"));
+  requestAnimationFrame(()=>{ bar.style.width="100%"; });
+  lines.forEach((l,i)=>setTimeout(()=>l.classList.add("show"),400+i*420));
+  nextBtn.disabled=true;
+  setTimeout(()=>{ nextBtn.disabled=false; },2000);
+}
+
+agree.addEventListener("change",()=>{ nextBtn.disabled=current===1&&!agree.checked; });
+
+steps.forEach(s=>s.addEventListener("click",()=>{ current=+s.dataset.i; render(); }));
+nextBtn.addEventListener("click",()=>{
+  if(current<screens.length-1){ current++; render(); }
+});
+backBtn.addEventListener("click",()=>{
+  if(current>0){ current--; render(); }
+});
+
+const themeBtn=document.getElementById("themeBtn");
+themeBtn.addEventListener("click",()=>{
+  const root=document.documentElement;
+  root.dataset.theme=root.dataset.theme==="light"?"dark":"light";
+});
+
+render();
+</script>
+</body>
+</html>
