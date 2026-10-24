@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>ManyDeck — установка</title>
+<title>ManyDeck v1.1.0 — установка</title>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -157,8 +157,26 @@ button:disabled{opacity:.4;cursor:not-allowed}
 
       <div class="screen active" data-screen="0">
         <div class="hero"><div class="mark"></div></div>
-        <h2>ManyDeck</h2>
-        <p>Удалённое управление и мониторинг этого компьютера через Telegram: процессы, звук, питание, буфер обмена и горячие клавиши.</p>
+        <h2>ManyDeck <span style="font-size:13px;color:var(--accent);font-family:'JetBrains Mono',monospace;font-weight:500">v1.1.0</span></h2>
+        <p>Полное удалённое управление этим компьютером через Telegram — кнопочный интерфейс, никаких команд вручную.</p>
+        <div class="notice" style="display:grid;grid-template-columns:1fr 1fr;gap:4px 18px;font-size:12.5px">
+          <span>🖥️ Нагрузка CPU / RAM / диски</span>
+          <span>📁 Браузер файлов</span>
+          <span>📊 Топ процессов (таблица)</span>
+          <span>⬇️ Скачать файл с ПК в Telegram</span>
+          <span>🖼️ Скриншот экрана</span>
+          <span>⬆️ Загрузить файл на ПК</span>
+          <span>❌ Убить процесс по имени/PID</span>
+          <span>🌐 IP, интерфейсы, соединения</span>
+          <span>🪟 Активное окно</span>
+          <span>⌨️ Горячие клавиши</span>
+          <span>📋 Буфер обмена</span>
+          <span>🔀 Alt+Tab</span>
+          <span>🔊 Громкость / mute</span>
+          <span>⚠️ Окошко с ошибкой</span>
+          <span>🔒 Блок / сон / ребут / выкл</span>
+          <span>🚀 Запустить программу</span>
+        </div>
         <p>Мастер настроит бота и подготовит его к первому запуску.</p>
       </div>
 
@@ -170,13 +188,13 @@ button:disabled{opacity:.4;cursor:not-allowed}
 
       <div class="screen" data-screen="2">
         <h2>Настройка</h2>
-        <p>Данные понадобятся для подключения бота к твоему Telegram.</p>
+        <p>Данные сохранятся в файл <span class="mono" style="font-size:12px;background:var(--surface-2);padding:2px 6px;border-radius:5px">.env</span> рядом с ботом. Не публикуй его.</p>
         <label>Токен бота</label>
-        <input type="text" class="mono" placeholder="123456789:AAE-xxxxxxxxxxxxxxxxxxxxxxx">
-        <div class="hint">Получить можно у <b>@BotFather</b></div>
+        <input type="text" class="mono" id="inp_token" placeholder="123456789:AAE-xxxxxxxxxxxxxxxxxxxxxxx">
+        <div class="hint">Получить у <b>@BotFather</b> → /newbot</div>
         <label>Твой Telegram ID</label>
-        <input type="text" class="mono" placeholder="123456789">
-        <div class="hint">Узнать можно у <b>@Get_myidrobot</b></div>
+        <input type="text" class="mono" id="inp_id" placeholder="123456789">
+        <div class="hint">Узнать у <b>@Get_myidrobot</b></div>
       </div>
 
       <div class="screen" data-screen="3">
@@ -203,9 +221,10 @@ button:disabled{opacity:.4;cursor:not-allowed}
         <div class="progress"><i id="progressBar"></i></div>
         <div class="log" id="log">
           <span>Копирование файлов…</span>
-          <span>Установка зависимостей…</span>
+          <span>Запись .env с токеном и ID…</span>
+          <span>Установка зависимостей (pip)…</span>
           <span>Регистрация автозапуска…</span>
-          <span>Готово</span>
+          <span>✓ ManyDeck v1.1.0 установлен</span>
         </div>
       </div>
 
@@ -214,7 +233,11 @@ button:disabled{opacity:.4;cursor:not-allowed}
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </div>
         <h2>Готово</h2>
-        <p>Бот установлен и готов к работе. Открой Telegram и отправь ему <span class="mono">/start</span> — появится меню управления.</p>
+        <p>ManyDeck v1.1.0 установлен и запущен. Открой Telegram и отправь боту <span class="mono" style="font-size:12px;background:var(--surface-2);padding:2px 6px;border-radius:5px">/start</span> — появится кнопочное меню управления.</p>
+        <div class="notice" style="font-size:13px">
+          Все данные хранятся в <b>.env</b> локально.<br>
+          Никогда не публикуй этот файл и не делись токеном.
+        </div>
       </div>
 
     </div>

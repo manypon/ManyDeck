@@ -4,3 +4,4 @@ pyautogui
 pyperclip
 pycaw
 comtypes
+python-dotenv
